@@ -42,6 +42,28 @@ body {
   display: none;
   animation: glow 1.5s infinite alternate;
 }
+#restartBtn {
+  display: none;
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #00ffc6;
+  color: black;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 10px #00ffc6;
+  transition: 0.2s;
+}
+
+#restartBtn:hover {
+  background: #00ff9d;
+}
+
 
 @keyframes glow {
   from { box-shadow: 0 0 10px #00ffc6; }
