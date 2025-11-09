@@ -35,19 +35,35 @@ function drawBackground() {
 }
 
 function drawPlayer() {
+  ctx.save();
+  ctx.globalCompositeOperation = "destination-over";
   ctx.drawImage(playerImg, player.x, player.y, player.width, player.height);
+  ctx.restore();
 }
 
 function drawObstacles() {
-  obstacles.forEach(o => ctx.drawImage(o.img, o.x, o.y, o.width, o.height));
+  obstacles.forEach(o => {
+    const colors = ['#00ffc6', '#ffcc00', '#ff0066', '#00b3ff'];
+    const c = colors[Math.floor(Math.random() * colors.length)];
+
+    ctx.fillStyle = c;
+    ctx.beginPath();
+    ctx.moveTo(o.x, o.y + o.height);
+    ctx.lineTo(o.x + o.width / 2, o.y); // مثلث بالایی
+    ctx.lineTo(o.x + o.width, o.y + o.height);
+    ctx.closePath();
+    ctx.fill();
+  });
 }
 
 function spawnObstacle() {
-  const type = Math.random() > 0.5 ? "assets/obstacle1.png" : "assets/obstacle2.png";
-  const img = new Image();
-  img.src = type;
   const h = 40 + Math.random() * 60;
-  obstacles.push({ x: canvas.width, y: 400 - h, width: 40, height: h, img });
+  obstacles.push({ 
+    x: canvas.width, 
+    y: 400 - h, 
+    width: 40, 
+    height: h 
+  });
 }
 
 function checkMilestones() {
@@ -124,8 +140,22 @@ function update() {
     ) {
       banner.style.display = "block";
       banner.innerText = "⚡ GAME OVER ⚡";
+      restartBtn.style.display = "block"
       gameOver = true;
     }
+    const restartBtn = document.getElementById("restartBtn");
+
+function restartGame() {
+  score = 0;
+  gameOver = false;
+  obstacles = [];
+  player.y = 300;
+  player.vy = 0;
+  scoreBoard.innerText = "Score: 0";
+  banner.style.display = "none";
+  restartBtn.style.display = "none";
+  update();
+}
   });
 
   drawPlayer();
